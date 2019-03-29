@@ -35,12 +35,12 @@ class RSA (
 
         fun sign(message: String, key: Key) = decrypt(message.asciiToHex(), key).asciiToHex()
 
-        fun verify(signature: String, key: Key): String {
+        fun verify(signature: String, key: Key, asAscii: Boolean = true): String {
             val payload = signature.toBigInteger(16)
             val verification = payload.modPow(key.unique, key.shared)
             var str = verification.toString(16)
             if (str.length % 2 == 1) str = "0$str"
-            return str.hexToAscii()
+            return if (asAscii) str.hexToAscii() else str
         }
 
         fun loadFile(path: String): String {

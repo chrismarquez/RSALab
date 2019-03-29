@@ -62,9 +62,13 @@ fun task5() {
 
 fun task6() {
     val modulus = RSA.loadFile("publicKey.txt").toBigInteger(16)
-    val exponent = RSA.loadFile("exponent.txt").toBigInteger(10)
+    val exponent = RSA.loadFile("exponent.txt").toBigInteger(16)
     val publicKey = RSA.Key(exponent, modulus)
     val signature = RSA.loadFile("Signature1.txt")
-    val payload = RSA.verify(signature, publicKey)
-    println(payload)
+    val payload = RSA.verify(signature, publicKey, asAscii = false)
+    val hashValue = payload.substring(payload.length - 64 until payload.length)
+    val realHash = RSA.loadFile("c0_body_hash.txt")
+    println("Original Hash:   $realHash")
+    println("Calculated Hash: $hashValue")
+    println("Is verification successful: ${realHash == hashValue}")
 }
