@@ -66,7 +66,7 @@ val task6 = {
     val publicKey = RSA.Key(exponent, modulus)
     val signature = RSA.loadFile("Signature1.txt")
     val payload = RSA.verify(signature, publicKey, asAscii = false)
-    val hashValue = payload.substring(payload.length - 64 until payload.length)
+    val hashValue = payload.substring(payload.length - 64 until payload.length) // Extract last 64 bytes, this is the hash to verify
     val realHash = RSA.loadFile("c0_body_hash.txt")
     println("Original Hash:   $realHash")
     println("Calculated Hash: $hashValue")
