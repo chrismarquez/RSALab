@@ -38,13 +38,14 @@ class RSA (
         fun verify(signature: String, key: Key): String {
             val payload = signature.toBigInteger(16)
             val verification = payload.modPow(key.unique, key.shared)
-            return verification.toString(16).hexToAscii()
+            var str = verification.toString(16)
+            if (str.length % 2 == 1) str = "0$str"
+            return str.hexToAscii()
         }
 
-        fun loadCertificate(path: String) {
+        fun loadFile(path: String): String {
             val url = this::class.java.getResource(path)
-            val text = url.readText()
-            println(text)
+            return url.readText()
         }
 
         private fun genKeys(p: BigInteger, q: BigInteger, public: BigInteger): Pair<Key, Key> {

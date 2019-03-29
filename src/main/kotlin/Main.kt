@@ -2,11 +2,11 @@
 lateinit var cryptex: RSA
 
 fun main() {
-    task1()
+/*    task1()
     task2()
     task3()
     task4()
-    task5()
+    task5()*/
     task6()
 }
 
@@ -26,6 +26,7 @@ fun task2() {
     val encoded = RSA.encrypt(message, key)
     println("Encoded: $encoded")
 }
+
 
 fun task3() {
     val n = "DCBFFE3E51F62E09CE7032E2677A78946A849DC4CDDE3A4D0CB81629242FB1A5".toBigInteger(16)
@@ -58,6 +59,12 @@ fun task5() {
     println("Is altered text verified: ${text == verification}")
 }
 
+
 fun task6() {
-    RSA.loadCertificate("c0.pem")
+    val modulus = RSA.loadFile("publicKey.txt").toBigInteger(16)
+    val exponent = RSA.loadFile("exponent.txt").toBigInteger(10)
+    val publicKey = RSA.Key(exponent, modulus)
+    val signature = RSA.loadFile("Signature1.txt")
+    val payload = RSA.verify(signature, publicKey)
+    println(payload)
 }
